@@ -1,6 +1,13 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Todos</h1>
+<!--完了済みタスク画面遷移-->
+<td><%= link_to '完了済みのタスクを見る', todos_path %></td>
+
+<%= form_with url: todos_path, method: :get, local: true do |f| %>
+   <%= text_field_tag "word", nil %>
+   <%= submit_tag "検索" %>
+<% end %>
 
 <table>
   <thead>

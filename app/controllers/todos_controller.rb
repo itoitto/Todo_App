@@ -4,7 +4,8 @@ class TodosController < ApplicationController
   # GET /todos
   # GET /todos.json
   def index
-    @todos = Todo.all.where(is_done: 0)
+    # @todos = Todo.all.where(is_done: 1)
+    @todos = Todo.search(params[:word])
   end
 
   # GET /todos/1
@@ -76,6 +77,6 @@ class TodosController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def todo_params
-      params.require(:todo).permit(:name, :content, :end_date, :is_done)
+      params.require(:todo).permit(:name, :content, :end_date, :is_done, :done_flg)
     end
 end
