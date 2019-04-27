@@ -15,5 +15,10 @@
   <%= @todo.end_date %>
 </p>
 
+<p>
+  <strong>Image</strong>
+  <%= image_tag @todo.image_url.to_s %>
+</p>
+
 <%= link_to 'Edit', edit_todo_path(@todo) %> |
 <%= link_to 'Back', todos_path %>

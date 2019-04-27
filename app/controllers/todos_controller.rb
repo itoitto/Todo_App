@@ -5,7 +5,10 @@ class TodosController < ApplicationController
   # GET /todos.json
   def index
     # @todos = Todo.all.where(is_done: 1)
-    @todos = Todo.search(params[:word])
+    # @todos = Todo.search(params[:word]).paginate(page: params[:page], per_page: 10)
+    # @todos = Todo.search(params[:word]).paginate(page: params[:page], per_page: 3)
+    @todos = Todo.search(params[:word]).paginate(page: params[:page], per_page: 3).where(user_id: current_user.id)
+    @today = Date.today
   end
 
   # GET /todos/1
@@ -77,6 +80,8 @@ class TodosController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def todo_params
-      params.require(:todo).permit(:name, :content, :end_date, :is_done, :done_flg)
+      todo_params = params.require(:todo).permit(:name, :content, :end_date, :is_done, :image_url)
+      user_id = current_user.id
+      todo_params.merge!(user_id: user_id)
     end
 end

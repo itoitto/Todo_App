@@ -1,12 +1,11 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Todos</h1>
-<!--完了済みタスク画面遷移-->
-<td><%= link_to '完了済みのタスクを見る', todos_path %></td>
-
+<%= link_to '完了済みタスクを見る', todos_path(params: {word: "done"}), mehod: :post %>
+<%= link_to 'タスクを見る', todos_path %>
 <%= form_with url: todos_path, method: :get, local: true do |f| %>
-   <%= text_field_tag "word", nil %>
-   <%= submit_tag "検索" %>
+    <%= text_field_tag "word", nil %>
+    <%= submit_tag "検索" %>
 <% end %>
 
 <table>
@@ -20,17 +19,19 @@
   </thead>
 
   <tbody>
-    <% @todos.each do |todo| %>
-      <tr>
-        <td><%= todo.name %></td>
-        <td><%= todo.content %></td>
-        <td><%= todo.end_date %></td>
-        <td><%= link_to 'Show', todo %></td>
-        <td><%= link_to 'Edit', edit_todo_path(todo) %></td>
-        <td><%= link_to 'Destroy', todo, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <td><%= link_to 'Done', "todos/#{todo.id}/done" , method: :patch %></td>
-      </tr>
-    <% end %>
+    <%= will_paginate %>
+      <% @todos.each do |todo| %>
+        <tr class="<%= @today >= todo.end_date-1 ? "over" : ""%>">
+          <td><%= todo.name %></td>
+          <td><%= todo.content %></td>
+          <td><%= todo.end_date %></td>
+          <td><%= todo.user_id %></td>
+          <td><%= link_to 'Show', todo %></td>
+          <td><%= link_to 'Edit', edit_todo_path(todo) %></td>
+          <td><%= link_to 'Destroy', todo, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td><%= link_to 'Done', "todos/#{todo.id}/done" , method: :patch %></td>
+        </tr>
+      <% end %>
   </tbody>
 </table>
 
